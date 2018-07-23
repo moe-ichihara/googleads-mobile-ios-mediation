@@ -10,6 +10,7 @@
 #import "GADMMaioDelegateAggregate.h"
 #import "GADMMaioError.h"
 #import "GADMMaioMaioInstanceRepository.h"
+#import "GADMMaioParameter.h"
 
 @import Maio;
 
@@ -79,12 +80,14 @@
 /// interstitials, call back to the adapter:didFailInterstitial: method of the
 /// connector.
 - (void)getInterstitial {
-  NSDictionary *param = [self.interstitialAdConnector credentials];
-  if (!param) {
+  NSDictionary *credentials = [self.interstitialAdConnector credentials];
+  if (!credentials) {
     return;
   }
-  self.mediaId = param[GADMMaioAdapterMediaId];
-  self.zoneId = param[GADMMaioAdapterZoneId];
+  GADMMaioParameter *parameter = [GADMMaioParameter parameterWithCredentials:
+      credentials ];
+  self.mediaId = parameter.mediaId;
+  self.zoneId = parameter.zoneId;
 
   [[GADMMaioDelegateAggregate sharedInstance].delegates addObject:self];
 

@@ -66,9 +66,9 @@
   GADMMaioMaioInstanceRepository *repository =
       [GADMMaioMaioInstanceRepository new];
   // Custom Event パラメータ（mediaId, zoneId）をロード。
-  GADMMaioParameter *parameter =
-      [self.class loadCustomEventParametersServerFromConnector:
-                      _rewardBasedVideoAdConnector];
+  GADMMaioParameter *parameter = [GADMMaioParameter parameterWithCredentials:
+      [self.rewardBasedVideoAdConnector credentials] ];
+
   if (!parameter.mediaId) {
     NSError *error =
         [GADMMaioError errorWithDescription:@"Media ID cannot be nil."];
@@ -105,9 +105,8 @@
     // ゾーンID が変更（直前とは異なる AdUnitID
     // を使用）されるケースがあるので、Custom Event パラメータ（mediaId,
     // zoneId）を再ロード。
-    GADMMaioParameter *parameter =
-        [self.class loadCustomEventParametersServerFromConnector:
-                        _rewardBasedVideoAdConnector];
+    GADMMaioParameter *parameter = [GADMMaioParameter parameterWithCredentials:
+        [self.rewardBasedVideoAdConnector credentials] ];
     _zoneId = parameter.zoneId;
 
     if ([maioInstance canShowAtZoneId:_zoneId]) {
@@ -252,18 +251,6 @@
 }
 
 #pragma mark - private methods
-
-/**
- *  Maio 用の Custom Event パラメータをロードします。
- */
-+ (id)loadCustomEventParametersServerFromConnector:
-    (id<GADMRewardBasedVideoAdNetworkConnector>)connector {
-  NSString *mediaId = [connector credentials][GADMMaioAdapterMediaId];
-  NSString *zoneId = [connector credentials][GADMMaioAdapterZoneId];
-  NSLog(@"mediaId: %@ zoneId: %@", mediaId, zoneId);
-
-  return [[GADMMaioParameter alloc] initWithMediaId:mediaId zoneId:zoneId];
-}
 
 /**
  *  動画広告のロードに失敗した事をコネクタに通知します。
