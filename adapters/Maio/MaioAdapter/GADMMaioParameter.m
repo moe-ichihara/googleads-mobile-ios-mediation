@@ -19,4 +19,11 @@
   return self;
 }
 
++(GADMMaioParameter *)parameterWithCredentials:(NSDictionary *)credentials {
+    NSString *mediaId = credentials[GADMMaioAdapterMediaId];
+    NSString *zoneId = credentials[GADMMaioAdapterZoneId];
+    
+    return [[GADMMaioParameter alloc] initWithMediaId:mediaId zoneId:zoneId];
+}
+
 @end

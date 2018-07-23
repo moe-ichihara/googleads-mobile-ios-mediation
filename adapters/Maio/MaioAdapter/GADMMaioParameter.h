@@ -13,5 +13,6 @@
 @property(nonatomic, readonly) NSString *zoneId;
 
 - (instancetype)initWithMediaId:(NSString *)mediaId zoneId:(NSString *)zoneId;
++ (GADMMaioParameter *)parameterWithCredentials:(NSDictionary *)credentials;
 
 @end
